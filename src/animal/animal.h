@@ -10,10 +10,10 @@ public:
 
     virtual string_view make_sound() const = 0;
     
-    virtual int get_foot_count() const { return 4; }
+    virtual int get_foot_count() const;
 
-    void set_name(string name) { name_ = std::move(name); }
-    string get_name() const { return name_; }
+    void set_name(string name);
+    string get_name() const;
 
 protected:
     string name_;
@@ -21,15 +21,15 @@ protected:
 
 class Dog : public Animal {
 public:
-    string_view make_sound() const override { return "Woof!"; }
+    string_view make_sound() const override;
 };
 
 class Cat : public Animal {
 public:
-    string_view make_sound() const override { return "Meow!"; }
+    string_view make_sound() const override;
 };
 
 class Mouse : public Animal {
 public:
-    string_view make_sound() const override { return "Squeak!"; }
+    string_view make_sound() const override;
 };
