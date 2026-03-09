@@ -67,6 +67,68 @@ void arrayBasic(){
 	}
 	cout << endl;
 }
+class Book {
+	public:
+		string title;
+		string author;
+		int year;
+};
+class Dog {
+	public :
+		void bark(int a) {
+			cout << "Woof!" << a << endl;
+		}
+};
+class Car {
+	private:
+		string brand;
+		string model;
+	public:
+		Car() {
+			brand = "unknown";
+			model = "unknown";
+		}
+		Car (string b, string m) {
+			brand = b;
+			model = m;
+		}
+
+		void print() {
+			cout << brand << " " << model << endl;
+		}
+};
+class Company{
+	private:
+		int salary;
+	public:
+		void setSalary(int a){
+			salary = a;
+		}
+		int getSalary(){
+			return salary;
+		}
+};
+void classBasic() {
+	cout << string(5, '=') << " CLASS BASIC" << endl;
+
+	Book book;
+	book.title = "Hello C++";
+	book.author = "CPP";
+	book.year = 1995;
+	cout << book.title << " " << book.author << " " << book.year << endl;
+
+	Dog dog;
+	dog.bark(10);
+
+	Car car1;
+	Car car2("BMW", "X5");
+	car1.print();
+	car2.print();
+
+	Company company;
+	company.setSalary(2000);
+	cout << company.getSalary() << endl;
+}
 int Basic() {
 	helloWorld();
 	ifElse();
@@ -74,5 +136,6 @@ int Basic() {
 	whileLoop();
 	switchCase();
 	arrayBasic();
+	classBasic();
 	return 0;
 }
