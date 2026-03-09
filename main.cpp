@@ -1,8 +1,6 @@
-#include <iostream>
-
-using namespace std;
+#include "src/basic.cpp"
 
 int main() {
-	cout << "hello world" << endl;
+	Basic();
 	return 0;
 }
