@@ -1,8 +1,17 @@
-.SILENT: build
-.SILENT: start
+.PHONY: all build start test clean
+
+all: build
+
 build:
-	g++ main.cpp -o bin/cpp_demo
+	cmake -B build -S .
+	cmake --build build
+
 start: build
-	bin/cpp_demo
+	./build/unit_tests
+	./build/animal_test
+
+test: build
+	cd build && ctest --output-on-failure
+
 clean:
-	rm -rf bin/*
+	rm -rf build
