@@ -7,7 +7,7 @@ build:
 	cmake --build build
 
 start: build
-	./build/unit_tests
+	./build/hello_test
 	./build/animal_test
 
 test: build
