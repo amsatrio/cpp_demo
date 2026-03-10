@@ -1,3 +1,6 @@
+#include <cstdint>
+#include <filesystem>
+#include <fstream>
 #include <string>
 #include <unordered_map>
 
@@ -20,7 +23,20 @@ class CacheInMemory: public Cache {
         bool exists(const std::string& key) override;
 };
 class CacheInStorage: public Cache {
+    private:
+        const std::string cache_directory = "./data";
+        // in byte
+        const std::uintmax_t cache_file_size_threshold = 1000;
+
+        void init_cache_file(std::string cache_file_path) {
+            std::ofstream file(cache_file_path);
+            if(std::filesystem::is_empty(cache_file_path)) {
+                file << "{}"; 
+            }
+            file.close();
+        }
     public:
+        CacheInStorage();
         virtual ~CacheInStorage() = default;
         
         void set(std::string& key, std::string& value) override;
