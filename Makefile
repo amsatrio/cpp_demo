@@ -9,6 +9,7 @@ build:
 start: build
 	./build/hello_test
 	./build/animal_test
+	./build/cache_test
 
 test: build
 	cd build && ctest --output-on-failure
