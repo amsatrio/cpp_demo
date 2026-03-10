@@ -28,12 +28,17 @@ void CacheInStorage::set(std::string &key, std::string &value) {
     std::fstream input("cache.json", std::ios::in);
 
     nlohmann::json data;
-    input >> data;
-    input.close();
+
+    if (input.is_open()){
+        input >> data;
+        input.close();
+    } else {
+        data = {};
+    }
 
     data[key] = value;
 
-    std::fstream output("cache.json", std::ios::out);
+    std::fstream output("cache.json", std::ios::out | std::ios::trunc);
     output << data.dump();
     output.close();
 }
@@ -42,8 +47,13 @@ std::string CacheInStorage::get(std::string &key) {
     std::fstream input("cache.json", std::ios::in);
 
     nlohmann::json data;
-    input >> data;
-    input.close();
+
+    if (input.is_open()){
+        input >> data;
+        input.close();
+    } else {
+        return std::string();
+    }
 
     if (data.contains(key)) {
         return data[key].get<std::string>();
@@ -56,8 +66,13 @@ bool CacheInStorage::exists(const std::string &key) {
     std::fstream input("cache.json", std::ios::in);
 
     nlohmann::json data;
-    input >> data;
-    input.close();
+
+    if (input.is_open()){
+        input >> data;
+        input.close();
+    } else {
+        return false;
+    }
 
     return data.contains(key);
 }
