@@ -6,6 +6,8 @@
 using namespace std;
 
 int main() {
+  std::cout << "--- Running Animal Tests ---" << std::endl;
+
   unique_ptr<Animal> dog = make_unique<Dog>();
   unique_ptr<Animal> cat = make_unique<Cat>();
   unique_ptr<Animal> mouse = make_unique<Mouse>();
@@ -13,6 +15,7 @@ int main() {
   assert(dog->make_sound() == "Woof!");
   assert(cat->make_sound() == "Meow!");
   assert(mouse->make_sound() == "Squeak!");
+  std::cout << "[PASS] Make sound check" << std::endl;
 
   dog->set_name("d");
   cat->set_name("c");
@@ -21,7 +24,6 @@ int main() {
   assert(dog->get_name() == "d");
   assert(cat->get_name() == "c");
   assert(mouse->get_name() == "m");
-
-  cout << "All Animal tests passed (C++23)!" << endl;
+  std::cout << "[PASS] Get name check" << std::endl;
   return 0;
 }

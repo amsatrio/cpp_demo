@@ -5,8 +5,10 @@
 using namespace std;
 
 int main() {
+    std::cout << "--- Running Hello World Tests ---" << std::endl;
+
     auto greeting = get_greeting();
     assert(greeting == "Hello World!");
-    cout << "Test Passed: " << greeting << endl;
+    cout << "[PASS] Get greeting: " << greeting << endl;
     return 0;
 }
