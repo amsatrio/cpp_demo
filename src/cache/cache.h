@@ -27,14 +27,6 @@ class CacheInStorage: public Cache {
         const std::string cache_directory = "./data";
         // in byte
         const std::uintmax_t cache_file_size_threshold = 1000;
-
-        void init_cache_file(std::string cache_file_path) {
-            std::ofstream file(cache_file_path);
-            if(std::filesystem::is_empty(cache_file_path)) {
-                file << "{}"; 
-            }
-            file.close();
-        }
     public:
         CacheInStorage();
         virtual ~CacheInStorage() = default;

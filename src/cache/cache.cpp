@@ -34,22 +34,50 @@ CacheInStorage::CacheInStorage(){
 }
 void CacheInStorage::set(std::string &key, std::string &value) {
     int i = 0;
-    std::string cache_file_path = cache_directory + "/" + std::to_string(i);
+    nlohmann::json data;
+    bool is_exists = false;
+    std::string cache_file_path;
+
     while (true) {
         cache_file_path = cache_directory + "/" + std::to_string(i);
         if(!std::filesystem::is_regular_file(cache_file_path)) {
             break;
         }
-        std::uintmax_t cache_file_size = std::filesystem::file_size(cache_file_path);
-        if (cache_file_size <= cache_file_size_threshold) {
+
+        std::fstream input(cache_file_path, std::ios::in);
+
+        if (input.is_open()){
+            input >> data;
+            input.close();
+        } else {
+            break;
+        }
+
+        if (data.contains(key)) {
+            is_exists = true;
             break;
         }
         i++;
     }
 
+    if (!is_exists) {
+        i = 0;
+        while (true) {
+            cache_file_path = cache_directory + "/" + std::to_string(i);
+            if(!std::filesystem::is_regular_file(cache_file_path)) {
+                break;
+            }
+            std::uintmax_t cache_file_size = std::filesystem::file_size(cache_file_path);
+            if (cache_file_size <= cache_file_size_threshold) {
+                break;
+            }
+            i++;
+        }
+    }
+
     std::fstream input(cache_file_path, std::ios::in);
 
-    nlohmann::json data;
+    data = {};
 
     if (input.is_open()){
         input >> data;
