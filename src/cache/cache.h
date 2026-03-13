@@ -3,6 +3,9 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include <variant>
+#include <set>
+#include <vector>
 
 class Cache {
     public:
@@ -12,9 +15,18 @@ class Cache {
         virtual std::string get(std::string& key) { return std::string(); };
         virtual bool exists(const std::string& key) { return false; };
 };
+
+enum class CacheType {String, List, Set, Hash};
+
+struct CacheObject {
+    CacheType type;
+    std::variant<std::string, std::vector<std::string>, std::set<std::string>> data;
+    long long expired_at = -1;
+};
+
 class CacheInMemory: public Cache {
     private:
-        std::unordered_map<std::string, std::string> map;
+        std::unordered_map<std::string, CacheObject> database;
     public:
         virtual ~CacheInMemory() = default;
         

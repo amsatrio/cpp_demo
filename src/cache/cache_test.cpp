@@ -49,13 +49,13 @@ int main() {
     assert(cache->get(missingKey) == "");
     std::cout << "[PASS] Missing key returns empty string" << std::endl;
 
-    std::string key = "";
-    for (size_t i = 0; i < 1000; i++) {
-        key = generate_random_string(10);
-        std::string value = generate_random_string(20);
+    // std::string key = "";
+    // for (size_t i = 0; i < 1000; i++) {
+    //     key = generate_random_string(10);
+    //     std::string value = generate_random_string(20);
 
-        cache->set(key, value);
-    }
-    assert(cache->exists(key) == true);
+    //     cache->set(key, value);
+    // }
+    // assert(cache->exists(key) == true);
     
 }

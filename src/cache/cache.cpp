@@ -4,24 +4,39 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
+inline long long current_time_ms() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+}
+
 void CacheInMemory::set(std::string &key, std::string &value){
-    CacheInMemory::map[key] = value;
+    CacheObject obj;
+    obj.type = CacheType::String;
+    obj.data = value;
+    obj.expired_at = -1;
+    database[key] = std::move(obj);
 }
 
 std::string CacheInMemory::get(std::string &key){
-    auto it = CacheInMemory::map.find(key);
+    auto it = CacheInMemory::database.find(key);
 
-    if (it != CacheInMemory::map.end()) {
-        return it->second;
+    if (it == database.end()) return "";
+
+    if (it->second.expired_at != -1 && it->second.expired_at < current_time_ms()) {
+        database.erase(it);
+        return "";
     }
+
+    if (std::holds_alternative<std::string>(it->second.data)) {
+        return std::get<std::string>(it->second.data);
+    }
+
     return "";
 }
 
 bool CacheInMemory::exists(const std::string &key){
-    if (CacheInMemory::map.count(key) > 0) {
-        return true;
-    }
-    return false;
+    return CacheInMemory::database.count(key) > 0;
 }
 
 
