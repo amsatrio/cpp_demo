@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(HelloWorldCpp23 LANGUAGES CXX)
 
+add_compile_options(-msse4.2)
+
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -19,10 +21,20 @@ add_executable(animal_test src/animal/animal_test.cpp)
 target_link_libraries(animal_test PRIVATE animal_lib)
 
 # Cache Library & Test
-add_library(cache_lib src/cache/cache.cpp)
+find_package(Protobuf REQUIRED)
+find_package(absl REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ABSL REQUIRED absl_log_internal_check_op absl_log_internal_message)
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS src/cache/cache.proto)
+add_library(cache_lib src/cache/cache.cpp ${PROTO_SRCS} ${PROTO_HDRS} src/util/hash.cpp)
 target_include_directories(cache_lib PUBLIC src/cache)
+target_link_libraries(cache_lib 
+    PUBLIC 
+        ${PROTOBUF_LIBRARIES}
+        ${ABSL_LIBRARIES}
+)
 
-add_executable(cache_test src/cache/cache_test.cpp src/util/generator.cpp)
+add_executable(cache_test src/cache/cache_test.cpp src/util/generator.cpp src/util/hash.cpp)
 target_link_libraries(cache_test PRIVATE cache_lib)
 
 # Util Generator Library & Test
