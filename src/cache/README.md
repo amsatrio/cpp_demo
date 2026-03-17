@@ -6,12 +6,12 @@ syntax = "proto3";
 
 enum CacheType {
   STRING = 0;
-  INTEGER = 1;
+  BINARY = 1;
 }
 
 message CacheObject {
-  CacheType type = 1;
-  string data = 2;
+  bytes blob_val = 1;
+  CacheType type = 2;
   int64 expired_at = 3;
 }
 ```

@@ -25,6 +25,7 @@ find_package(Protobuf REQUIRED)
 find_package(absl REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ABSL REQUIRED absl_log_internal_check_op absl_log_internal_message)
+pkg_check_modules(JSONCPP REQUIRED jsoncpp)
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS src/cache/cache.proto)
 add_library(cache_lib src/cache/cache.cpp ${PROTO_SRCS} ${PROTO_HDRS} src/util/hash.cpp)
 target_include_directories(cache_lib PUBLIC src/cache)
@@ -32,10 +33,16 @@ target_link_libraries(cache_lib
     PUBLIC 
         ${PROTOBUF_LIBRARIES}
         ${ABSL_LIBRARIES}
+        ${JSONCPP_LIBRARIES}
 )
 
 add_executable(cache_test src/cache/cache_test.cpp src/util/generator.cpp src/util/hash.cpp)
 target_link_libraries(cache_test PRIVATE cache_lib)
+
+find_package(Drogon REQUIRED)
+find_package(Trantor REQUIRED)
+add_executable(cache_api src/cache/cache_api.cpp src/util/generator.cpp src/util/hash.cpp)
+target_link_libraries(cache_api PRIVATE cache_lib Drogon::Drogon Trantor::Trantor)
 
 # Util Generator Library & Test
 add_library(util_generator_lib src/util/generator.cpp)

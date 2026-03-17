@@ -17,3 +17,6 @@ test: build
 
 clean:
 	rm -rf build
+
+start_cache_api: build
+	./build/cache_api

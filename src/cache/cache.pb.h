@@ -69,7 +69,7 @@ internal::EnumTraitsT<::CacheType_internal_data_>
 
 enum CacheType : int {
   STRING = 0,
-  INTEGER = 1,
+  BINARY = 1,
   CacheType_INT_MIN_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::min(),
   CacheType_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -252,23 +252,23 @@ class CacheObject final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kDataFieldNumber = 2,
+    kValueFieldNumber = 1,
     kExpiredAtFieldNumber = 3,
-    kTypeFieldNumber = 1,
+    kTypeFieldNumber = 2,
   };
-  // string data = 2;
-  void clear_data() ;
-  const ::std::string& data() const;
+  // bytes value = 1;
+  void clear_value() ;
+  const ::std::string& value() const;
   template <typename Arg_ = const ::std::string&, typename... Args_>
-  void set_data(Arg_&& arg, Args_... args);
-  ::std::string* PROTOBUF_NONNULL mutable_data();
-  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_data();
-  void set_allocated_data(::std::string* PROTOBUF_NULLABLE value);
+  void set_value(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_value();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_value();
+  void set_allocated_value(::std::string* PROTOBUF_NULLABLE value);
 
   private:
-  const ::std::string& _internal_data() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_data(const ::std::string& value);
-  ::std::string* PROTOBUF_NONNULL _internal_mutable_data();
+  const ::std::string& _internal_value() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_value(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_value();
 
   public:
   // int64 expired_at = 3;
@@ -281,7 +281,7 @@ class CacheObject final : public ::google::protobuf::Message
   void _internal_set_expired_at(::int64_t value);
 
   public:
-  // .CacheType type = 1;
+  // .CacheType type = 2;
   void clear_type() ;
   ::CacheType type() const;
   void set_type(::CacheType value);
@@ -296,7 +296,7 @@ class CacheObject final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<2, 3,
-                                   0, 24,
+                                   0, 0,
                                    2>
       _table_;
 
@@ -317,7 +317,7 @@ class CacheObject final : public ::google::protobuf::Message
         const CacheObject& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr data_;
+    ::google::protobuf::internal::ArenaStringPtr value_;
     ::int64_t expired_at_;
     int type_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -344,7 +344,72 @@ extern const ::google::protobuf::internal::ClassDataFull CacheObject_class_data_
 
 // CacheObject
 
-// .CacheType type = 1;
+// bytes value = 1;
+inline void CacheObject::clear_value() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.value_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::std::string& CacheObject::value() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:CacheObject.value)
+  return _internal_value();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void CacheObject::set_value(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.value_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:CacheObject.value)
+}
+inline ::std::string* PROTOBUF_NONNULL CacheObject::mutable_value()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::std::string* _s = _internal_mutable_value();
+  // @@protoc_insertion_point(field_mutable:CacheObject.value)
+  return _s;
+}
+inline const ::std::string& CacheObject::_internal_value() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.value_.Get();
+}
+inline void CacheObject::_internal_set_value(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.value_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL CacheObject::_internal_mutable_value() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.value_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE CacheObject::release_value() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:CacheObject.value)
+  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* released = _impl_.value_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.value_.Set("", GetArena());
+  }
+  return released;
+}
+inline void CacheObject::set_allocated_value(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.value_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.value_.IsDefault()) {
+    _impl_.value_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:CacheObject.value)
+}
+
+// .CacheType type = 2;
 inline void CacheObject::clear_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.type_ = 0;
@@ -366,71 +431,6 @@ inline ::CacheType CacheObject::_internal_type() const {
 inline void CacheObject::_internal_set_type(::CacheType value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.type_ = value;
-}
-
-// string data = 2;
-inline void CacheObject::clear_data() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.data_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::std::string& CacheObject::data() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:CacheObject.data)
-  return _internal_data();
-}
-template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void CacheObject::set_data(Arg_&& arg, Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.data_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:CacheObject.data)
-}
-inline ::std::string* PROTOBUF_NONNULL CacheObject::mutable_data()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::std::string* _s = _internal_mutable_data();
-  // @@protoc_insertion_point(field_mutable:CacheObject.data)
-  return _s;
-}
-inline const ::std::string& CacheObject::_internal_data() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.data_.Get();
-}
-inline void CacheObject::_internal_set_data(const ::std::string& value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.data_.Set(value, GetArena());
-}
-inline ::std::string* PROTOBUF_NONNULL CacheObject::_internal_mutable_data() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.data_.Mutable( GetArena());
-}
-inline ::std::string* PROTOBUF_NULLABLE CacheObject::release_data() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:CacheObject.data)
-  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* released = _impl_.data_.Release();
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
-    _impl_.data_.Set("", GetArena());
-  }
-  return released;
-}
-inline void CacheObject::set_allocated_data(::std::string* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.data_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.data_.IsDefault()) {
-    _impl_.data_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:CacheObject.data)
 }
 
 // int64 expired_at = 3;

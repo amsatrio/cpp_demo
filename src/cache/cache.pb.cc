@@ -28,7 +28,7 @@ namespace _fl = ::google::protobuf::internal::field_layout;
 inline constexpr CacheObject::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        data_(
+        value_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         expired_at_{::int64_t{0}},
@@ -63,11 +63,11 @@ const ::uint32_t
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::CacheObject, _impl_._has_bits_),
         6, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::CacheObject, _impl_.value_),
         PROTOBUF_FIELD_OFFSET(::CacheObject, _impl_.type_),
-        PROTOBUF_FIELD_OFFSET(::CacheObject, _impl_.data_),
         PROTOBUF_FIELD_OFFSET(::CacheObject, _impl_.expired_at_),
-        2,
         0,
+        2,
         1,
 };
 
@@ -80,10 +80,10 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
 };
 const char descriptor_table_protodef_cache_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\013cache.proto\"I\n\013CacheObject\022\030\n\004type\030\001 \001"
-    "(\0162\n.CacheType\022\014\n\004data\030\002 \001(\t\022\022\n\nexpired_"
-    "at\030\003 \001(\003*$\n\tCacheType\022\n\n\006STRING\020\000\022\013\n\007INT"
-    "EGER\020\001b\006proto3"
+    "\n\013cache.proto\"J\n\013CacheObject\022\r\n\005value\030\001 "
+    "\001(\014\022\030\n\004type\030\002 \001(\0162\n.CacheType\022\022\n\nexpired"
+    "_at\030\003 \001(\003*#\n\tCacheType\022\n\n\006STRING\020\000\022\n\n\006BI"
+    "NARY\020\001b\006proto3"
 };
 static ::absl::once_flag descriptor_table_cache_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_cache_2eproto = {
@@ -133,7 +133,7 @@ PROTOBUF_NDEBUG_INLINE CacheObject::Impl_::Impl_(
     const ::CacheObject& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
-        data_(arena, from.data_) {}
+        value_(arena, from.value_) {}
 
 CacheObject::CacheObject(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
@@ -162,7 +162,7 @@ PROTOBUF_NDEBUG_INLINE CacheObject::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : _cached_size_{0},
-        data_(arena) {}
+        value_(arena) {}
 
 inline void CacheObject::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
@@ -181,7 +181,7 @@ inline void CacheObject::SharedDtor(MessageLite& self) {
   CacheObject& this_ = static_cast<CacheObject&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.data_.Destroy();
+  this_._impl_.value_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -228,7 +228,7 @@ CacheObject::GetClassData() const {
   return CacheObject_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 3, 0, 24, 2>
+const ::_pbi::TcParseTable<2, 3, 0, 0, 2>
 CacheObject::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(CacheObject, _impl_._has_bits_),
@@ -248,33 +248,30 @@ CacheObject::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // .CacheType type = 1;
+    // bytes value = 1;
+    {::_pbi::TcParser::FastBS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.value_)}},
+    // .CacheType type = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CacheObject, _impl_.type_), 2>(),
-     {8, 2, 0, PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.type_)}},
-    // string data = 2;
-    {::_pbi::TcParser::FastUS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.data_)}},
+     {16, 2, 0, PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.type_)}},
     // int64 expired_at = 3;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CacheObject, _impl_.expired_at_), 1>(),
      {24, 1, 0, PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.expired_at_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .CacheType type = 1;
+    // bytes value = 1;
+    {PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.value_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBytes | ::_fl::kRepAString)},
+    // .CacheType type = 2;
     {PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.type_), _Internal::kHasBitsOffset + 2, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
-    // string data = 2;
-    {PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.data_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
     // int64 expired_at = 3;
     {PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.expired_at_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kInt64)},
   }},
   // no aux_entries
   {{
-    "\13\0\4\0\0\0\0\0"
-    "CacheObject"
-    "data"
   }},
 };
 PROTOBUF_NOINLINE void CacheObject::Clear() {
@@ -286,7 +283,7 @@ PROTOBUF_NOINLINE void CacheObject::Clear() {
 
   cached_has_bits = _impl_._has_bits_[0];
   if ((cached_has_bits & 0x00000001u) != 0) {
-    _impl_.data_.ClearNonDefaultToEmpty();
+    _impl_.value_.ClearNonDefaultToEmpty();
   }
   if ((cached_has_bits & 0x00000006u) != 0) {
     ::memset(&_impl_.expired_at_, 0, static_cast<::size_t>(
@@ -312,22 +309,20 @@ PROTOBUF_NOINLINE void CacheObject::Clear() {
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // .CacheType type = 1;
+  // bytes value = 1;
+  if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
+    if (!this_._internal_value().empty()) {
+      const ::std::string& _s = this_._internal_value();
+      target = stream->WriteBytesMaybeAliased(1, _s, target);
+    }
+  }
+
+  // .CacheType type = 2;
   if ((this_._impl_._has_bits_[0] & 0x00000004u) != 0) {
     if (this_._internal_type() != 0) {
       target = stream->EnsureSpace(target);
       target = ::_pbi::WireFormatLite::WriteEnumToArray(
-          1, this_._internal_type(), target);
-    }
-  }
-
-  // string data = 2;
-  if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    if (!this_._internal_data().empty()) {
-      const ::std::string& _s = this_._internal_data();
-      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "CacheObject.data");
-      target = stream->WriteStringMaybeAliased(2, _s, target);
+          2, this_._internal_type(), target);
     }
   }
 
@@ -366,11 +361,11 @@ PROTOBUF_NOINLINE void CacheObject::Clear() {
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
   cached_has_bits = this_._impl_._has_bits_[0];
   if ((cached_has_bits & 0x00000007u) != 0) {
-    // string data = 2;
+    // bytes value = 1;
     if ((cached_has_bits & 0x00000001u) != 0) {
-      if (!this_._internal_data().empty()) {
-        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                        this_._internal_data());
+      if (!this_._internal_value().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
+                                        this_._internal_value());
       }
     }
     // int64 expired_at = 3;
@@ -380,7 +375,7 @@ PROTOBUF_NOINLINE void CacheObject::Clear() {
             this_._internal_expired_at());
       }
     }
-    // .CacheType type = 1;
+    // .CacheType type = 2;
     if ((cached_has_bits & 0x00000004u) != 0) {
       if (this_._internal_type() != 0) {
         total_size += 1 +
@@ -403,11 +398,11 @@ void CacheObject::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
   cached_has_bits = from._impl_._has_bits_[0];
   if ((cached_has_bits & 0x00000007u) != 0) {
     if ((cached_has_bits & 0x00000001u) != 0) {
-      if (!from._internal_data().empty()) {
-        _this->_internal_set_data(from._internal_data());
+      if (!from._internal_value().empty()) {
+        _this->_internal_set_value(from._internal_value());
       } else {
-        if (_this->_impl_.data_.IsDefault()) {
-          _this->_internal_set_data("");
+        if (_this->_impl_.value_.IsDefault()) {
+          _this->_internal_set_value("");
         }
       }
     }
@@ -440,7 +435,7 @@ void CacheObject::InternalSwap(CacheObject* PROTOBUF_RESTRICT PROTOBUF_NONNULL o
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.data_, &other->_impl_.data_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.value_, &other->_impl_.value_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(CacheObject, _impl_.type_)
       + sizeof(CacheObject::_impl_.type_)
