@@ -1,6 +1,5 @@
 #include "cache.h"
 #include "../util/hash.h"
-#include "cache.pb.h"
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -17,12 +16,11 @@ inline long long current_time_ms() {
         .count();
 }
 
-void CacheInMemory::set(std::string &key, std::vector<uint8_t> &value) {
+void CacheInMemory::set(std::string &key, std::vector<uint8_t> &value, uint64_t expired_in) {
     auto hash = hardware_hash(key);
     CacheObject obj;
-    obj.set_type(CacheType::BINARY);
     obj.set_value(value.data(), value.size());
-    obj.set_expired_at(-1);
+    obj.set_expired_at(current_time_ms() + expired_in);
     database[hash] = std::move(obj);
 }
 
@@ -34,14 +32,13 @@ std::vector<uint8_t> CacheInMemory::get(std::string &key) {
     if (it == database.end())
         return result;
 
-    if (it->second.expired_at() != -1 &&
-        it->second.expired_at() < current_time_ms()) {
+    if (it->second.get_expired_at() != -1 &&
+        it->second.get_expired_at() < current_time_ms()) {
         database.erase(it);
         return result;
     }
 
-    const std::string &data = it->second.value();
-    return std::vector<uint8_t>(data.begin(), data.end());
+    return it->second.get_value();
 }
 
 bool CacheInMemory::exists(const std::string &key) {
@@ -55,11 +52,10 @@ CacheInStorage::CacheInStorage() {
         std::filesystem::create_directories(cache_directory, ec);
     }
 }
-void CacheInStorage::set(std::string &key, std::vector<uint8_t> &value) {
+void CacheInStorage::set(std::string &key, std::vector<uint8_t> &value, uint64_t expired_in) {
     CacheObject obj;
-    obj.set_type(CacheType::BINARY);
     obj.set_value(value.data(), value.size());
-    obj.set_expired_at(-1);
+    obj.set_expired_at(current_time_ms() + expired_in);
 
     std::fstream output(cache_directory + "/" + hardware_hash(key),
                         std::ios::out | std::ios::binary | std::ios::trunc);
@@ -87,13 +83,12 @@ std::vector<uint8_t> CacheInStorage::get(std::string &key) {
     }
 
     input.close();
-    if (object.expired_at() != -1 && object.expired_at() < current_time_ms()) {
+    if (object.get_expired_at() != -1 && object.get_expired_at() < current_time_ms()) {
         std::filesystem::remove(cache_file_path);
         return {};
     }
 
-    const std::string &data = object.value();
-    return std::vector<uint8_t>(data.begin(), data.end());
+    return object.get_value();
 }
 
 bool CacheInStorage::exists(const std::string &key) {

@@ -124,7 +124,7 @@ int main() {
                 std::cout << "Value Size: " << value.size() << " bytes"
                           << std::endl;
 
-                cache->set(key, value);
+                cache->set(key, value, 1000);
 
                 conn->send("+OK\r\n");
             }

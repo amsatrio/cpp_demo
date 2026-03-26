@@ -21,19 +21,10 @@ add_executable(animal_test src/animal/animal_test.cpp)
 target_link_libraries(animal_test PRIVATE animal_lib)
 
 # Cache Library & Test
-find_package(Protobuf REQUIRED)
-find_package(absl REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(ABSL REQUIRED absl_log_internal_check_op absl_log_internal_message)
-pkg_check_modules(JSONCPP REQUIRED jsoncpp)
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS src/cache/cache.proto)
-add_library(cache_lib src/cache/cache.cpp ${PROTO_SRCS} ${PROTO_HDRS} src/util/hash.cpp)
+add_library(cache_lib src/cache/cache.cpp src/util/hash.cpp)
 target_include_directories(cache_lib PUBLIC src/cache)
 target_link_libraries(cache_lib 
     PUBLIC 
-        ${PROTOBUF_LIBRARIES}
-        ${ABSL_LIBRARIES}
-        ${JSONCPP_LIBRARIES}
 )
 
 add_executable(cache_test src/cache/cache_test.cpp src/util/generator.cpp src/util/hash.cpp)

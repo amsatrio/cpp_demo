@@ -21,11 +21,12 @@ int main() {
     std::vector<uint8_t> val2 = string_to_binary("ABC-987");
     std::vector<uint8_t> newVal1 = string_to_binary("Jane Doe");
     std::string missingKey = "ghost";
+    uint64_t expired_in = 1000; // in millisecond
 
     std::cout << "--- Running Cache In Memory Tests ---" << std::endl;
     std::unique_ptr<Cache> cache = std::make_unique<CacheInMemory>();
 
-    cache->set(key1, val1);
+    cache->set(key1, val1, expired_in);
     assert(cache->get(key1) == string_to_binary("John Doe"));
     std::cout << "[PASS] Set and Get: " << key1 << std::endl;
 
@@ -33,7 +34,7 @@ int main() {
     assert(cache->exists("non_existent") == false);
     std::cout << "[PASS] Exists check" << std::endl;
 
-    cache->set(key1, newVal1);
+    cache->set(key1, newVal1, expired_in);
     assert(cache->get(key1) == string_to_binary("Jane Doe"));
     std::cout << "[PASS] Overwrite existing key" << std::endl;
 
@@ -43,7 +44,7 @@ int main() {
     std::cout << "--- Running Cache In Storage Tests ---" << std::endl;
     cache = std::make_unique<CacheInStorage>();
 
-    cache->set(key1, val1);
+    cache->set(key1, val1, expired_in);
     // std::cout << result << std::endl;
     assert(cache->get(key1) == string_to_binary("John Doe"));
     std::cout << "[PASS] Set and Get: " << key1 << std::endl;
@@ -52,19 +53,19 @@ int main() {
     assert(cache->exists("non_existent") == false);
     std::cout << "[PASS] Exists check" << std::endl;
 
-    cache->set(key1, newVal1);
+    cache->set(key1, newVal1, expired_in);
     assert(cache->get(key1) == string_to_binary("Jane Doe"));
     std::cout << "[PASS] Overwrite existing key" << std::endl;
 
     assert(cache->get(missingKey) == std::vector<uint8_t>{});
     std::cout << "[PASS] Missing key returns empty string" << std::endl;
 
-    // std::string key = "";
-    // for (size_t i = 0; i < 1000; i++) {
-    //     key = generate_random_string(10);
-    //     std::string value = generate_random_string(20);
-
-    //     cache->set(key, value);
-    // }
-    // assert(cache->exists(key) == true);
+    std::string key = "";
+    for (size_t i = 0; i < 1000; i++) {
+        key = generate_random_string(10);
+        std::string value = generate_random_string(20);
+        std::vector<uint8_t> value_binary = string_to_binary(value);
+        cache->set(key, value_binary, expired_in);
+    }
+    assert(cache->exists(key) == true);
 }
